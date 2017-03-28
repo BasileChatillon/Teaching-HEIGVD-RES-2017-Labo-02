@@ -5,7 +5,7 @@ import ch.heigvd.res.labs.roulette.data.IStudentsStore;
 import ch.heigvd.res.labs.roulette.data.JsonObjectMapper;
 import ch.heigvd.res.labs.roulette.net.protocol.InfoCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.RandomCommandResponse;
-import ch.heigvd.res.labs.roulette.net.protocol.RouletteV1Protocol;
+import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
 import static ch.heigvd.res.labs.roulette.net.server.RouletteV1ClientHandler.LOG;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class RouletteV2ClientHandler implements IClientHandler {
     while (!done && ((command = reader.readLine()) != null)) {
       LOG.log(Level.INFO, "COMMAND: {0}", command);
       switch (command.toUpperCase()) {
-        case RouletteV1Protocol.CMD_RANDOM:
+        case RouletteV2Protocol.CMD_RANDOM:
           RandomCommandResponse rcResponse = new RandomCommandResponse();
           try {
             rcResponse.setFullname(store.pickRandomStudent().getFullname());
@@ -56,24 +56,30 @@ public class RouletteV2ClientHandler implements IClientHandler {
           writer.println(JsonObjectMapper.toJson(rcResponse));
           writer.flush();
           break;
-        case RouletteV1Protocol.CMD_HELP:
-          writer.println("Commands: " + Arrays.toString(RouletteV1Protocol.SUPPORTED_COMMANDS));
+        case RouletteV2Protocol.CMD_HELP:
+          writer.println("Commands: " + Arrays.toString(RouletteV2Protocol.SUPPORTED_COMMANDS));
           break;
-        case RouletteV1Protocol.CMD_INFO:
-          InfoCommandResponse response = new InfoCommandResponse(RouletteV1Protocol.VERSION, store.getNumberOfStudents());
+        case RouletteV2Protocol.CMD_INFO:
+          InfoCommandResponse response = new InfoCommandResponse(RouletteV2Protocol.VERSION, store.getNumberOfStudents());
           writer.println(JsonObjectMapper.toJson(response));
           writer.flush();
           break;
-        case RouletteV1Protocol.CMD_LOAD:
-          writer.println(RouletteV1Protocol.RESPONSE_LOAD_START);
+        case RouletteV2Protocol.CMD_LOAD:
+          writer.println(RouletteV2Protocol.RESPONSE_LOAD_START);
           writer.flush();
           store.importData(reader);
-          writer.println(RouletteV1Protocol.RESPONSE_LOAD_DONE);
+          writer.println(RouletteV2Protocol.RESPONSE_LOAD_DONE);
           writer.flush();
           break;
-        case RouletteV1Protocol.CMD_BYE:
+        case RouletteV2Protocol.CMD_BYE:
           done = true;
           break;
+        case RouletteV2Protocol.CMD_CLEAR:
+            break;
+        
+        case RouletteV2Protocol.CMD_LIST:
+            break;
+        
         default:
           writer.println("Huh? please use HELP if you don't know what commands are available.");
           writer.flush();
