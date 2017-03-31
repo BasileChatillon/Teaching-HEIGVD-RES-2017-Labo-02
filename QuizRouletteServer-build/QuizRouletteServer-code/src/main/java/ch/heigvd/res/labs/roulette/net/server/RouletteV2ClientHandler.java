@@ -6,6 +6,7 @@ import ch.heigvd.res.labs.roulette.data.JsonObjectMapper;
 import ch.heigvd.res.labs.roulette.net.protocol.ByeCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.InfoCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.ListCommandResponse;
+import ch.heigvd.res.labs.roulette.net.protocol.LoadCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.RandomCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
 import java.io.BufferedReader;
@@ -46,8 +47,10 @@ public class RouletteV2ClientHandler implements IClientHandler {
         writer.flush();
 
         String command;
+        int nbCommand = 0;
         boolean done = false;
         while (!done && ((command = reader.readLine()) != null)) {
+            nbCommand++;
             LOG.log(Level.INFO, "COMMAND: {0}", command);
             switch (command.toUpperCase()) {
                 case RouletteV2Protocol.CMD_RANDOM:
@@ -74,13 +77,20 @@ public class RouletteV2ClientHandler implements IClientHandler {
                 case RouletteV2Protocol.CMD_LOAD:
                     writer.println(RouletteV2Protocol.RESPONSE_LOAD_START);
                     writer.flush();
-                    store.importData(reader);
-                    writer.println(RouletteV2Protocol.RESPONSE_LOAD_DONE);
+                    LoadCommandResponse responseLoad;
+                    try{
+                        store.importData(reader);
+                        responseLoad = new LoadCommandResponse("sucess", store.getNumberOfStudents());
+                    }
+                    catch(IOException e){
+                        responseLoad = new LoadCommandResponse("fail", store.getNumberOfStudents());
+                    }
+                    writer.println(JsonObjectMapper.toJson(responseLoad));               
                     writer.flush();
                     break;
 
                 case RouletteV2Protocol.CMD_BYE:
-                    ByeCommandResponse responseBye = new ByeCommandResponse("sucess", store.getNumberOfStudents());
+                    ByeCommandResponse responseBye = new ByeCommandResponse("sucess", nbCommand);
                     writer.println(JsonObjectMapper.toJson(responseBye));
                     writer.flush();
                     done = true;
