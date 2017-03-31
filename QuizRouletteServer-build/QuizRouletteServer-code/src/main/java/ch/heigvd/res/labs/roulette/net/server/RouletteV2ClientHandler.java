@@ -6,7 +6,6 @@ import ch.heigvd.res.labs.roulette.data.JsonObjectMapper;
 import ch.heigvd.res.labs.roulette.net.protocol.InfoCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.RandomCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
-import static ch.heigvd.res.labs.roulette.net.server.RouletteV1ClientHandler.LOG;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class RouletteV2ClientHandler implements IClientHandler {
   
-  final static Logger LOG = Logger.getLogger(RouletteV1ClientHandler.class.getName());
+  final static Logger LOG = Logger.getLogger(RouletteV2ClientHandler.class.getName());
 
   private final IStudentsStore store;
   
