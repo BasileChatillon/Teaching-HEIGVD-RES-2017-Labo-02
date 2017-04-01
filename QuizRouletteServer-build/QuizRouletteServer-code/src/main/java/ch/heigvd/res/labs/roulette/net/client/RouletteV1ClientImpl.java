@@ -26,11 +26,11 @@ import java.util.logging.Logger;
 public class RouletteV1ClientImpl implements IRouletteV1Client {
 
     // 
-    private Socket socket;
-    private BufferedReader in = null;
-    private PrintWriter out = null;
+    protected Socket socket;
+    protected BufferedReader in = null;
+    protected PrintWriter out = null;
 
-    private static final Logger LOG = Logger.getLogger(RouletteV1ClientImpl.class.getName());
+    protected static final Logger LOG = Logger.getLogger(RouletteV1ClientImpl.class.getName());
 
     @Override
     public void connect(String server, int port) throws IOException {

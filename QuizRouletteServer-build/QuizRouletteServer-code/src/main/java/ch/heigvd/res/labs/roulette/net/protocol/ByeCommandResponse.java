@@ -8,21 +8,23 @@ package ch.heigvd.res.labs.roulette.net.protocol;
  */
 public class ByeCommandResponse {
   private String status;
-  private int nbCommand;
+  private int numberOfCommands;
 
   public ByeCommandResponse() {
+      status = "Not initialized yet";
+      numberOfCommands = 0;
   }
 
-  public ByeCommandResponse(String status, int numberOfStudents) {
+  public ByeCommandResponse(String status, int numberOfCommands) {
     this.status = status;
-    this.nbCommand = numberOfStudents;
+    this.numberOfCommands = numberOfCommands;
   }
   
   public String getStatus(){
       return status;
   }
   
-  public int getNbCommand(){
-      return nbCommand;
+  public int getNumberOfCommands(){
+      return numberOfCommands;
   }
 }
