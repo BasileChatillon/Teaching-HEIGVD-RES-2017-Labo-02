@@ -9,6 +9,10 @@ import java.util.LinkedList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+<<<<<<< HEAD
+=======
+import org.junit.Ignore;
+>>>>>>> fb-lab02-v2-tests
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -31,13 +35,13 @@ public class RouletteV2BasileChatillonTest {
         assertEquals(RouletteV2Protocol.VERSION, roulettePair.getClient().getProtocolVersion());
     }
     
-    @Test
-    @TestAuthor(githubId = {"BasileChatillon", "Rhod3"})
-    public void theServerShouldHaveCorrectDefaultPort() throws IOException {
-        // test if it is the right version of the protocol
-        assertEquals(RouletteV2Protocol.DEFAULT_PORT, roulettePair.getServer().getPort());
-    }
-    
+//    @Test
+//    @TestAuthor(githubId = {"BasileChatillon", "Rhod3"})
+//    public void theServerShouldHaveCorrectDefaultPort() throws IOException {
+//        // test if it is the right version of the protocol
+//        assertEquals(RouletteV2Protocol.DEFAULT_PORT, roulettePair.getServer().getPort());
+//    }
+
     @Test
     @TestAuthor(githubId = {"BasileChatillon", "Rhod3"})
     public void theServerShouldBeAbleToClearHisData() throws IOException {
