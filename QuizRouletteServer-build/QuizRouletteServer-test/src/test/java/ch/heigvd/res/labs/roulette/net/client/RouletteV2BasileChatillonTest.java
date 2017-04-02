@@ -9,10 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-<<<<<<< HEAD
-=======
 import org.junit.Ignore;
->>>>>>> fb-lab02-v2-tests
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
