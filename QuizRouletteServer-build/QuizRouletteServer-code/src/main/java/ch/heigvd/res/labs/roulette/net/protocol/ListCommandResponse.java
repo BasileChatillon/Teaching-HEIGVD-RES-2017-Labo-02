@@ -12,9 +12,13 @@ import java.util.List;
  */
 public class ListCommandResponse {
     private final List<Student> students;
+    
+    public ListCommandResponse(){
+        students = new LinkedList<>();
+    }
 
     public ListCommandResponse(List<Student> s) {
-        this.students = s;
+        this.students = new LinkedList<>(s);
     }
     
     public List<Student> getStudents(){
