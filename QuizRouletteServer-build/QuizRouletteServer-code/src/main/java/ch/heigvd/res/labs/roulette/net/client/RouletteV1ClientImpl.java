@@ -11,17 +11,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.ProtocolException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * This class implements the client side of the protocol specification (version 1).
  *
  * @author Olivier Liechti
+ * Modified by Basile Chatillon & Nicolas Rod
  */
 public class RouletteV1ClientImpl implements IRouletteV1Client {
 
