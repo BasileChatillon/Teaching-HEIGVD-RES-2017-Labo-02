@@ -105,8 +105,8 @@ public class RouletteV2ClientHandler implements IClientHandler {
                     break;
 
                 case RouletteV2Protocol.CMD_LIST:
-                    ListCommandResponse repoonseList = new ListCommandResponse(store.listStudents());
-                    writer.println(JsonObjectMapper.toJson(repoonseList));
+                    ListCommandResponse responseList = new ListCommandResponse(store.listStudents());
+                    writer.println(JsonObjectMapper.toJson(responseList));
                     writer.flush();
                     break;
 

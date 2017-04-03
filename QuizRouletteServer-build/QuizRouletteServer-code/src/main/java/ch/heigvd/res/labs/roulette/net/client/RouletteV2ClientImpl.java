@@ -52,6 +52,9 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
     @Override
     public void disconnect() throws IOException {
 
+        if (!isConnected()){
+            return;
+        }
         // Send the end command to the server
         out.println(RouletteV2Protocol.CMD_BYE);
         out.flush();
