@@ -63,7 +63,6 @@ public class RouletteV2ClientHandler implements IClientHandler {
                     writer.println(JsonObjectMapper.toJson(rcResponse));
                     writer.flush();
                     break;
-
                 case RouletteV2Protocol.CMD_HELP:
                     writer.println("Commands: " + Arrays.toString(RouletteV2Protocol.SUPPORTED_COMMANDS));
                     writer.flush();
@@ -74,38 +73,50 @@ public class RouletteV2ClientHandler implements IClientHandler {
                     writer.println(JsonObjectMapper.toJson(response));
                     writer.flush();
                     break;
-
+                
                 case RouletteV2Protocol.CMD_LOAD:
                     writer.println(RouletteV2Protocol.RESPONSE_LOAD_START);
                     writer.flush();
                     LoadCommandResponse responseLoad;
+                    // We get the number of students before adding the new ones. So we can calculate the difference
                     int oldNumberOfStudents = store.getNumberOfStudents();
+                    
+                    // We first try to import the data. If we can, we state "success"
                     try{
                         store.importData(reader);
                         responseLoad = new LoadCommandResponse("success", store.getNumberOfStudents() - oldNumberOfStudents);
                     }
                     catch(IOException e){
+                        // If we fail, we state "fail"
                         responseLoad = new LoadCommandResponse("fail", store.getNumberOfStudents() - oldNumberOfStudents);
                     }
+                    
+                    // We send the answer
                     writer.println(JsonObjectMapper.toJson(responseLoad));               
                     writer.flush();
                     break;
 
                 case RouletteV2Protocol.CMD_BYE:
+                    // Creation of the response
                     ByeCommandResponse responseBye = new ByeCommandResponse("success", nbCommand);
+                    // We send it
                     writer.println(JsonObjectMapper.toJson(responseBye));
                     writer.flush();
                     done = true;
                     break;
 
                 case RouletteV2Protocol.CMD_CLEAR:
+                    // We first clear the store
                     store.clear();
+                    // We send the message
                     writer.println(RouletteV2Protocol.RESPONSE_CLEAR_DONE);
                     writer.flush();
                     break;
 
                 case RouletteV2Protocol.CMD_LIST:
+                    // Creation of response
                     ListCommandResponse responseList = new ListCommandResponse(store.listStudents());
+                    // We send it
                     writer.println(JsonObjectMapper.toJson(responseList));
                     writer.flush();
                     break;

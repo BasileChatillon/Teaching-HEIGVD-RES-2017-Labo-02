@@ -2,15 +2,12 @@ package ch.heigvd.res.labs.roulette.net.client;
 
 import ch.heigvd.res.labs.roulette.data.JsonObjectMapper;
 import ch.heigvd.res.labs.roulette.data.Student;
-import ch.heigvd.res.labs.roulette.data.StudentsList;
 import ch.heigvd.res.labs.roulette.net.protocol.ByeCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.InfoCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.ListCommandResponse;
 import ch.heigvd.res.labs.roulette.net.protocol.LoadCommandResponse;
-import ch.heigvd.res.labs.roulette.net.protocol.RouletteV1Protocol;
 import ch.heigvd.res.labs.roulette.net.protocol.RouletteV2Protocol;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,6 +17,7 @@ import java.util.List;
  */
 public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRouletteV2Client {
 
+    // We keep in attribut the response, so we can use them
     private ByeCommandResponse responseBye = new ByeCommandResponse();
     private LoadCommandResponse responseLoad = new LoadCommandResponse();
 
@@ -28,6 +26,7 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
         out.println(RouletteV2Protocol.CMD_CLEAR);
         out.flush();
 
+        // We then read the response, which should be DATASTORE CLEARED
         in.readLine();
     }
 
@@ -70,10 +69,18 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
         socket = null;
     }
 
+    /**
+     * Method to get the status of the response after a "BYE" command
+     * @return the status of the command "BYE"
+     */
     public String getByeStatus() {
         return responseBye.getStatus();
     }
 
+    /**
+     * Method to get the number of commands of the response after a "BYE" command
+     * @return the number of commands done during this session 
+     */
     public int getNumberOfCommands() {
         return responseBye.getNumberOfCommands();
     }
@@ -98,11 +105,19 @@ public class RouletteV2ClientImpl extends RouletteV1ClientImpl implements IRoule
         // get the answer of the server
         responseLoad = JsonObjectMapper.parseJson(in.readLine(), LoadCommandResponse.class);
     }
-
+    
+    /**
+     * Method to get the status of the response after a "LOAD" command
+     * @return the status of the command "LOAD"
+     */
     public String getLoadStatus() {
         return responseLoad.getStatus();
     }
 
+    /**
+     * Method to get the number of commands of the response after a "LOAD" command
+     * @return the number of students that we had during the "LOAD" command 
+     */
     public int getLoadNbStudents() {
         return responseLoad.getNumberOfNewStudents();
     }
